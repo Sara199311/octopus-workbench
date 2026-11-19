@@ -1,0 +1,3447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#a8e6cf">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="小张工作台">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23a8e6cf'/%3E%3Ctext x='90' y='125' font-size='100' text-anchor='middle' fill='%235ba88a'%3E🐙%3C/text%3E%3C/svg%3E">
+    <title>小张不爱吃章鱼 · 工作台</title>
+    <style>
+/* ============================================
+   小张不爱吃章鱼 · 移动端专属工作台
+   主题：低饱和薄荷绿护眼 + 奶油白 + 浅橘点缀
+   适配：iPhone 15 Pro Max 竖屏
+   ============================================ */
+
+/* CSS 变量定义 */
+:root {
+    /* 主色调 - 低饱和薄荷绿 */
+    --mint-primary: #a8e6cf;
+    --mint-light: #d4f1e0;
+    --mint-dark: #7bc9a8;
+    --mint-deep: #5ba88a;
+
+    /* 奶油白底色 */
+    --cream-bg: #fefcf8;
+    --cream-card: #ffffff;
+    --cream-soft: #f9f6f0;
+
+    /* 浅橘色点缀 */
+    --orange-accent: #ffd9b3;
+    --orange-light: #ffe8d1;
+    --orange-deep: #ffb366;
+
+    /* 文字颜色 */
+    --text-primary: #4a5d52;
+    --text-secondary: #7a8c80;
+    --text-light: #a8b8af;
+    --text-white: #ffffff;
+
+    /* 阴影质感 */
+    --shadow-soft: 0 2px 12px rgba(123, 153, 138, 0.08);
+    --shadow-medium: 0 4px 20px rgba(123, 153, 138, 0.12);
+    --shadow-strong: 0 6px 24px rgba(123, 153, 138, 0.18);
+
+    /* 圆角 */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+
+    /* 间距 */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+    /* 过渡 */
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* 安全区域 */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* 全局重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+    background: var(--cream-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    /* 模拟 iPhone 15 Pro Max 尺寸 - 居中显示 */
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    border-left: 1px solid var(--mint-light);
+    border-right: 1px solid var(--mint-light);
+    box-shadow: 0 0 60px rgba(168, 230, 207, 0.15);
+}
+
+/* 滚动条隐藏 */
+::-webkit-scrollbar {
+    width: 0;
+    display: none;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+/* ============================================
+   顶部状态栏
+   ============================================ */
+.top-bar {
+    background: linear-gradient(135deg, var(--mint-primary) 0%, var(--mint-dark) 100%);
+    padding: calc(var(--safe-top) + 10px) var(--space-md) 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-white);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-soft);
+}
+
+.workbench-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* 右上角日历时间组件（醒目样式） */
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 4px 8px 4px 4px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 3px 12px rgba(91, 168, 138, 0.28);
+}
+
+/* 日历日期块 - 橘色醒目 */
+.cal-date-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #fff5e6, #ffd9b3);
+    border-radius: 10px;
+    padding: 3px 8px;
+    min-width: 44px;
+    border: 1.5px solid var(--orange-deep);
+    box-shadow: 0 2px 8px rgba(255, 179, 102, 0.4);
+}
+
+.cal-month {
+    font-size: 0.55rem;
+    color: var(--orange-deep);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.cal-day {
+    font-size: 1.2rem;
+    color: #d4691e;
+    font-weight: 800;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 时间星期块 */
+.cal-time-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1px;
+    padding: 0 4px;
+}
+
+.cal-week {
+    font-size: 0.58rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    line-height: 1;
+}
+
+.cal-time {
+    font-size: 0.85rem;
+    color: #fff;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+    text-shadow: 0 1px 4px rgba(91, 168, 138, 0.5);
+}
+
+/* 状态指示点（保留兼容） */
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff9999;
+    box-shadow: 0 0 8px rgba(255, 153, 153, 0.6);
+    animation: pulse 2s infinite;
+    display: none;
+}
+
+.status-indicator.active {
+    background: #99ff99;
+    box-shadow: 0 0 8px rgba(153, 255, 153, 0.6);
+}
+
+.status-indicator.rest {
+    background: #ccc;
+    box-shadow: none;
+    animation: none;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* ============================================
+   主体布局
+   ============================================ */
+.main-body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    padding-bottom: 56px; /* 底部导航高度 */
+}
+
+/* ============================================
+   左侧导航栏 - 移动端优化为窄条
+   ============================================ */
+.sidebar {
+    width: 76px;
+    background: var(--cream-soft);
+    border-right: 1px solid var(--mint-light);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow-y: auto;
+    padding: var(--space-sm) 0;
+}
+
+.sidebar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-sm);
+    gap: 6px;
+    border-bottom: 1px solid var(--mint-light);
+    margin-bottom: var(--space-sm);
+}
+
+.sidebar-title {
+    font-size: 0.6rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: 2px;
+}
+
+.btn-add-nav {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px dashed var(--mint-dark);
+    background: transparent;
+    color: var(--mint-dark);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    line-height: 1;
+}
+
+.btn-add-nav:active {
+    transform: scale(0.9);
+    background: var(--mint-light);
+}
+
+.nav-list {
+    list-style: none;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: 0 var(--space-sm);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 4px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    text-align: center;
+}
+
+.nav-item:active {
+    transform: scale(0.95);
+}
+
+.nav-item.active {
+    background: var(--mint-light);
+    box-shadow: var(--shadow-soft);
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 60%;
+    background: var(--mint-dark);
+    border-radius: 0 4px 4px 0;
+}
+
+.nav-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.nav-label {
+    font-size: 0.62rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    line-height: 1.2;
+    word-break: break-all;
+}
+
+.nav-item.active .nav-label {
+    color: var(--mint-deep);
+    font-weight: 700;
+}
+
+.nav-item.custom .nav-delete {
+    display: block;
+}
+
+.nav-delete {
+    display: none;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--orange-deep);
+    color: white;
+    font-size: 0.7rem;
+    border: none;
+    line-height: 16px;
+    text-align: center;
+    cursor: pointer;
+    padding: 0;
+}
+
+.sidebar-footer {
+    padding: var(--space-sm);
+    border-top: 1px solid var(--mint-light);
+}
+
+.overall-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.overall-label {
+    font-size: 0.55rem;
+    color: var(--text-secondary);
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: 1px;
+}
+
+.overall-bar-wrap {
+    width: 6px;
+    height: 60px;
+    background: var(--mint-light);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    position: relative;
+}
+
+.overall-bar {
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(180deg, var(--mint-dark), var(--mint-deep));
+    border-radius: var(--radius-full);
+    transition: height 0.5s ease;
+    position: absolute;
+    bottom: 0;
+}
+
+.overall-percent {
+    font-size: 0.6rem;
+    color: var(--mint-deep);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   右侧内容区
+   ============================================ */
+.content-area {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: var(--space-md);
+    -webkit-overflow-scrolling: touch;
+}
+
+.module-header {
+    margin-bottom: var(--space-md);
+}
+
+.module-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.module-subtitle {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+}
+
+/* 任务卡片 */
+.task-card {
+    background: var(--cream-card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+    border: 1px solid var(--mint-light);
+}
+
+.task-card:active {
+    transform: scale(0.98);
+}
+
+.task-card.completed {
+    background: var(--mint-light);
+    border-color: var(--mint-dark);
+}
+
+.task-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-sm);
+}
+
+.task-info {
+    flex: 1;
+}
+
+.task-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.task-card.completed .task-name {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.task-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.task-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.65rem;
+}
+
+.task-tag {
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-weight: 500;
+}
+
+.tag-daily {
+    background: var(--mint-light);
+    color: var(--mint-deep);
+}
+
+.tag-limited {
+    background: var(--orange-light);
+    color: var(--orange-deep);
+}
+
+.tag-countdown {
+    background: #ffe0e0;
+    color: #e67373;
+}
+
+.task-actions {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+}
+
+/* 自定义复选框 */
+.task-checkbox {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2.5px solid var(--mint-dark);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.task-checkbox:active {
+    transform: scale(0.85);
+}
+
+.task-checkbox.checked {
+    background: var(--mint-dark);
+    border-color: var(--mint-dark);
+}
+
+.task-checkbox.checked::after {
+    content: '✓';
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* 进度条 */
+.progress-section {
+    margin-top: var(--space-sm);
+}
+
+.progress-bar-wrap {
+    width: 100%;
+    height: 10px;
+    background: var(--cream-soft);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--mint-light);
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--mint-primary), var(--mint-dark));
+    border-radius: var(--radius-full);
+    transition: width 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+.progress-percent {
+    font-weight: 700;
+    color: var(--mint-deep);
+    font-variant-numeric: tabular-nums;
+}
+
+.btn-progress {
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    border: none;
+    background: var(--orange-accent);
+    color: var(--text-primary);
+    font-size: 0.68rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-progress:active {
+    transform: scale(0.92);
+    background: var(--orange-deep);
+    color: white;
+}
+
+.btn-delete-task {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--text-light);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-delete-task:active {
+    color: #e67373;
+}
+
+/* 倒计时卡片 */
+.countdown-card {
+    background: linear-gradient(135deg, var(--orange-light), var(--orange-accent));
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    text-align: center;
+    border: 1px solid var(--orange-deep);
+}
+
+.countdown-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.countdown-days {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--orange-deep);
+    line-height: 1;
+}
+
+.countdown-unit {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.countdown-target {
+    font-size: 0.68rem;
+    color: var(--text-light);
+    margin-top: 4px;
+}
+
+/* 新增任务按钮 */
+.btn-add-task {
+    width: 100%;
+    padding: 14px;
+    border-radius: var(--radius-lg);
+    border: 2px dashed var(--mint-dark);
+    background: transparent;
+    color: var(--mint-deep);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-add-task:active {
+    background: var(--mint-light);
+    transform: scale(0.98);
+}
+
+/* ============================================
+   底部导航
+   ============================================ */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    height: 56px;
+    background: var(--cream-card);
+    border-top: 1px solid var(--mint-light);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: var(--safe-bottom);
+    box-shadow: 0 -2px 12px rgba(123, 153, 138, 0.08);
+    z-index: 90;
+}
+
+.bottom-nav-item {
+    flex: 1;
+    height: 100%;
+    border: none;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-light);
+    padding: 0;
+}
+
+.bottom-nav-item.active {
+    color: var(--mint-deep);
+}
+
+.bottom-nav-item.active .bn-icon {
+    transform: scale(1.15);
+}
+
+.bn-icon {
+    font-size: 1.2rem;
+    transition: var(--transition);
+}
+
+.bn-label {
+    font-size: 0.6rem;
+    font-weight: 500;
+}
+
+/* ============================================
+   弹窗系统
+   ============================================ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(74, 93, 82, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: var(--space-lg);
+}
+
+.modal-overlay.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal {
+    background: var(--cream-card);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+    width: 100%;
+    max-width: 340px;
+    box-shadow: var(--shadow-strong);
+    animation: modalSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-align: center;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-sm);
+    animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.modal-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.modal-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+    padding: 0 var(--space-sm);
+}
+
+.btn-modal-confirm {
+    padding: 12px 32px;
+    border-radius: var(--radius-full);
+    border: none;
+    background: linear-gradient(135deg, var(--mint-primary), var(--mint-dark));
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow-medium);
+    transition: var(--transition);
+}
+
+.btn-modal-confirm:active {
+    transform: scale(0.95);
+    box-shadow: var(--shadow-soft);
+}
+
+/* 输入框 */
+.input-field {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--mint-light);
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    background: var(--cream-soft);
+    margin-bottom: var(--space-sm);
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--mint-dark);
+    background: white;
+}
+
+.textarea-field {
+    resize: none;
+    min-height: 60px;
+}
+
+.modal-btns {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.btn-cancel, .btn-confirm {
+    flex: 1;
+    padding: 10px;
+    border-radius: var(--radius-md);
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-cancel {
+    background: var(--cream-soft);
+    color: var(--text-secondary);
+}
+
+.btn-confirm {
+    background: var(--mint-dark);
+    color: white;
+}
+
+.btn-cancel:active {
+    background: var(--mint-light);
+}
+
+.btn-confirm:active {
+    transform: scale(0.95);
+}
+
+.progress-modal {
+    text-align: left;
+}
+
+.progress-task-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--mint-light);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.progress-input-group {
+    margin-bottom: var(--space-sm);
+}
+
+.progress-input-group label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+/* ============================================
+   闯关奖励特效
+   ============================================ */
+.reward-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(74, 93, 82, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    padding: var(--space-lg);
+}
+
+.reward-overlay.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.reward-container {
+    text-align: center;
+    animation: rewardPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes rewardPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(-10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+.reward-stars {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    pointer-events: none;
+}
+
+.reward-star {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: starFly 1.5s ease-out forwards;
+}
+
+@keyframes starFly {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(var(--tx), var(--ty)) scale(1.5);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(calc(var(--tx) * 1.5), calc(var(--ty) * 1.5)) scale(0.5);
+    }
+}
+
+.reward-medal {
+    font-size: 5rem;
+    animation: medalShine 1s ease infinite alternate;
+    margin-bottom: var(--space-md);
+}
+
+@keyframes medalShine {
+    0% { transform: scale(1) rotate(-5deg); filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5)); }
+    100% { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8)); }
+}
+
+.reward-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: var(--space-sm);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.reward-desc {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: var(--space-lg);
+}
+
+.btn-reward-close {
+    padding: 12px 36px;
+    border-radius: var(--radius-full);
+    border: none;
+    background: linear-gradient(135deg, var(--orange-accent), var(--orange-deep));
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(255, 179, 102, 0.4);
+    transition: var(--transition);
+}
+
+.btn-reward-close:active {
+    transform: scale(0.95);
+}
+
+/* ============================================
+   Toast 提示
+   ============================================ */
+.toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(74, 93, 82, 0.95);
+    color: white;
+    padding: 10px 20px;
+    border-radius: var(--radius-full);
+    font-size: 0.78rem;
+    font-weight: 500;
+    z-index: 3000;
+    opacity: 0;
+    transition: opacity 0.3s ease, bottom 0.3s ease;
+    pointer-events: none;
+    max-width: 90%;
+    text-align: center;
+}
+
+.toast.show {
+    opacity: 1;
+    bottom: 90px;
+}
+
+/* ============================================
+   星光特效层
+   ============================================ */
+.sparkle-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1500;
+    overflow: hidden;
+}
+
+.sparkle {
+    position: absolute;
+    pointer-events: none;
+    animation: sparkleAnim 1s ease-out forwards;
+}
+
+@keyframes sparkleAnim {
+    0% { opacity: 1; transform: scale(0) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+    100% { opacity: 0; transform: scale(0) rotate(360deg) translateY(-40px); }
+}
+
+/* ============================================
+   热点资讯卡片
+   ============================================ */
+.hot-news-card {
+    background: var(--cream-card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    box-shadow: var(--shadow-soft);
+    border-left: 4px solid var(--mint-dark);
+    transition: var(--transition);
+}
+
+.hot-news-card:active {
+    transform: scale(0.98);
+}
+
+.hot-news-card.read {
+    opacity: 0.55;
+    border-left-color: var(--text-light);
+}
+
+.hot-news-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-sm);
+}
+
+.hot-news-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+    line-height: 1.4;
+}
+
+.hot-news-category {
+    font-size: 0.6rem;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    background: var(--orange-light);
+    color: var(--orange-deep);
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 8px;
+}
+
+.hot-news-summary {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: var(--space-sm);
+}
+
+.hot-news-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.65rem;
+    color: var(--text-light);
+}
+
+.hot-news-actions {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.hot-news-btn {
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--mint-light);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.62rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.hot-news-btn:active {
+    background: var(--mint-light);
+}
+
+.hot-news-btn.active {
+    background: var(--mint-dark);
+    color: white;
+    border-color: var(--mint-dark);
+}
+
+/* 空状态 */
+.empty-state {
+    text-align: center;
+    padding: var(--space-xl) var(--space-md);
+    color: var(--text-light);
+}
+
+.empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-sm);
+    opacity: 0.5;
+}
+
+.empty-state-text {
+    font-size: 0.8rem;
+}
+
+/* 健身体重记录 */
+.weight-record-card {
+    background: linear-gradient(135deg, var(--mint-light), var(--cream-soft));
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    border: 1px solid var(--mint-light);
+}
+
+.weight-display {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    justify-content: center;
+    margin: var(--space-sm) 0;
+}
+
+.weight-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--mint-deep);
+}
+
+.weight-unit {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.weight-trend {
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.weight-trend .trend-down {
+    color: #4caf50;
+    font-weight: 600;
+}
+
+.weight-trend .trend-up {
+    color: #e67373;
+    font-weight: 600;
+}
+
+/* 幼儿学习阶段标签 */
+.stage-tabs {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.stage-tab {
+    flex: 1;
+    padding: 10px;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--mint-light);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.stage-tab.active {
+    background: var(--mint-light);
+    border-color: var(--mint-dark);
+    color: var(--mint-deep);
+}
+
+/* 幼儿任务卡片特殊样式 */
+.yoyo-task-card .task-name {
+    font-size: 0.88rem;
+}
+
+.yoyo-info-box {
+    background: linear-gradient(135deg, var(--orange-light), var(--mint-light));
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.yoyo-info-box strong {
+    color: var(--text-primary);
+}
+
+/* 健身计划展开 */
+.fitness-plan-card {
+    background: var(--cream-card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--mint-light);
+}
+
+.fitness-plan-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.fitness-plan-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--mint-light);
+    font-size: 0.78rem;
+}
+
+.fitness-plan-item:last-child {
+    border-bottom: none;
+}
+
+.fitness-plan-time {
+    font-weight: 700;
+    color: var(--mint-deep);
+    min-width: 55px;
+    font-size: 0.75rem;
+}
+
+.fitness-plan-content {
+    flex: 1;
+    color: var(--text-secondary);
+}
+
+.fitness-plan-content strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 2px;
+}
+
+/* 运动天数累计 */
+.streak-card {
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    text-align: center;
+}
+
+.streak-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #d4691e;
+    line-height: 1;
+}
+
+.streak-label {
+    font-size: 0.75rem;
+    color: #8a5a2e;
+    margin-top: 4px;
+}
+
+/* 午休遮罩 */
+.rest-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(168, 230, 207, 0.95), rgba(123, 201, 168, 0.95));
+    z-index: 5000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: var(--space-md);
+    color: white;
+    text-align: center;
+    padding: var(--space-xl);
+}
+
+.rest-mask.show {
+    display: flex;
+    animation: fadeIn 0.5s ease;
+}
+
+.rest-mask-icon {
+    font-size: 4rem;
+    animation: breathing 3s ease infinite;
+}
+
+@keyframes breathing {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+.rest-mask-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.rest-mask-text {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+/* 响应式微调 */
+@media (max-width: 380px) {
+    .sidebar {
+        width: 68px;
+    }
+    .nav-icon {
+        font-size: 1.3rem;
+    }
+    .nav-label {
+        font-size: 0.58rem;
+    }
+    .module-title {
+        font-size: 1.1rem;
+    }
+    .task-name {
+        font-size: 0.88rem;
+    }
+}
+
+/* 大屏居中（桌面预览时模拟手机） */
+@media (min-width: 431px) {
+    body {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+        height: calc(100vh - 40px);
+        min-height: auto;
+    }
+}
+
+/* ============================================
+   招聘信息汇总平台
+   ============================================ */
+.job-board-section {
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 2px dashed var(--mint-light);
+}
+
+.job-board-header {
+    margin-bottom: var(--space-md);
+}
+
+.job-board-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.job-board-subtitle {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.job-sites-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.job-site-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    background: var(--cream-card);
+    border: 1px solid var(--mint-light);
+    font-size: 0.72rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+}
+
+.job-site-chip:active {
+    transform: scale(0.95);
+    background: var(--mint-light);
+}
+
+.job-filter-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: var(--space-md);
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.job-filter {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    border: 1.5px solid var(--mint-light);
+    background: var(--cream-card);
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.job-filter.active {
+    background: var(--mint-dark);
+    border-color: var(--mint-dark);
+    color: white;
+}
+
+.job-post-card {
+    background: var(--cream-card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--mint-light);
+    border-left: 4px solid var(--orange-accent);
+}
+
+.job-post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    margin-bottom: 8px;
+}
+
+.job-post-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.job-post-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+    word-break: break-all;
+}
+
+.job-post-company {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+}
+
+.job-post-category {
+    flex-shrink: 0;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    background: var(--orange-light);
+    color: var(--orange-deep);
+    white-space: nowrap;
+}
+
+.job-post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.65rem;
+    color: var(--text-light);
+    margin-bottom: 8px;
+}
+
+.job-post-note {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    background: var(--cream-soft);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    margin-bottom: 8px;
+}
+
+.job-post-actions {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+}
+
+.job-post-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 12px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--mint-light);
+    background: transparent;
+    color: var(--mint-deep);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.job-post-btn:active {
+    background: var(--mint-light);
+    transform: scale(0.95);
+}
+
+.job-post-btn.job-delete {
+    color: #e67373;
+    border-color: #ffe0e0;
+}
+
+</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+</head>
+<body>
+    <div id="app">
+        <!-- 顶部状态栏 -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <span class="workbench-name">🐙 小张不爱吃章鱼</span>
+            </div>
+            <div class="top-bar-right" id="calendarWidget">
+                <div class="cal-date-box">
+                    <span class="cal-month" id="calMonth"></span>
+                    <span class="cal-day" id="calDay"></span>
+                </div>
+                <div class="cal-time-box">
+                    <span class="cal-week" id="calWeek"></span>
+                    <span class="cal-time" id="currentTime"></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主体区域 -->
+        <div class="main-body">
+            <!-- 左侧导航栏 -->
+            <nav class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <span class="sidebar-title">导航菜单</span>
+                    <button class="btn-add-nav" onclick="openAddNavModal()" title="新增菜单">+</button>
+                </div>
+                <ul class="nav-list" id="navList">
+                    <!-- 导航项动态生成 -->
+                </ul>
+                <div class="sidebar-footer">
+                    <div class="overall-progress">
+                        <span class="overall-label">今日总进度</span>
+                        <div class="overall-bar-wrap">
+                            <div class="overall-bar" id="overallBar"></div>
+                        </div>
+                        <span class="overall-percent" id="overallPercent">0%</span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 右侧内容区 -->
+            <main class="content-area" id="contentArea">
+                <!-- 内容动态切换 -->
+            </main>
+        </div>
+
+        <!-- 底部导航（移动端辅助） -->
+        <footer class="bottom-nav" id="bottomNav">
+            <button class="bottom-nav-item active" data-module="study" onclick="switchModule('study')">
+                <span class="bn-icon">📚</span>
+                <span class="bn-label">学习</span>
+            </button>
+            <button class="bottom-nav-item" data-module="work" onclick="switchModule('work')">
+                <span class="bn-icon">💼</span>
+                <span class="bn-label">工作</span>
+            </button>
+            <button class="bottom-nav-item" data-module="hot" onclick="switchModule('hot')">
+                <span class="bn-icon">🔥</span>
+                <span class="bn-label">热点</span>
+            </button>
+            <button class="bottom-nav-item" data-module="fitness" onclick="switchModule('fitness')">
+                <span class="bn-icon">💪</span>
+                <span class="bn-label">健身</span>
+            </button>
+            <button class="bottom-nav-item" data-module="yoyo" onclick="switchModule('yoyo')">
+                <span class="bn-icon">🌟</span>
+                <span class="bn-label">佑佑</span>
+            </button>
+        </footer>
+    </div>
+
+    <!-- 激励语弹窗 -->
+    <div class="modal-overlay" id="motivationModal">
+        <div class="modal motivation-modal">
+            <div class="modal-icon">✨</div>
+            <div class="modal-title" id="motivationTitle">激励</div>
+            <div class="modal-text" id="motivationText"></div>
+            <button class="btn-modal-confirm" onclick="closeMotivation()">开始努力 ✊</button>
+        </div>
+    </div>
+
+    <!-- 闯关奖励特效 -->
+    <div class="reward-overlay" id="rewardOverlay">
+        <div class="reward-container">
+            <div class="reward-stars" id="rewardStars"></div>
+            <div class="reward-medal" id="rewardMedal">🏅</div>
+            <div class="reward-title" id="rewardTitle">恭喜通关！</div>
+            <div class="reward-desc" id="rewardDesc"></div>
+            <button class="btn-reward-close" onclick="closeReward()">太棒了！</button>
+        </div>
+    </div>
+
+    <!-- 新增任务弹窗 -->
+    <div class="modal-overlay" id="addTaskModal">
+        <div class="modal add-task-modal">
+            <div class="modal-title">新增任务</div>
+            <input type="text" class="input-field" id="newTaskName" placeholder="任务名称">
+            <textarea class="input-field textarea-field" id="newTaskDesc" placeholder="任务描述（可选）"></textarea>
+            <div class="modal-btns">
+                <button class="btn-cancel" onclick="closeAddTaskModal()">取消</button>
+                <button class="btn-confirm" onclick="confirmAddTask()">确认添加</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新增导航菜单弹窗 -->
+    <div class="modal-overlay" id="addNavModal">
+        <div class="modal add-task-modal">
+            <div class="modal-title">新增导航菜单</div>
+            <input type="text" class="input-field" id="newNavName" placeholder="菜单名称">
+            <input type="text" class="input-field" id="newNavIcon" placeholder="图标（输入emoji，如 📖）">
+            <div class="modal-btns">
+                <button class="btn-cancel" onclick="closeAddNavModal()">取消</button>
+                <button class="btn-confirm" onclick="confirmAddNav()">确认添加</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 进度录入弹窗 -->
+    <div class="modal-overlay" id="progressModal">
+        <div class="modal progress-modal">
+            <div class="modal-title">录入进度</div>
+            <div class="progress-task-name" id="progressTaskName"></div>
+            <div class="progress-input-group">
+                <label>完成进度 (%)</label>
+                <input type="number" class="input-field" id="progressValue" min="0" max="100" placeholder="0-100">
+            </div>
+            <div class="progress-input-group">
+                <label>完成时长（分钟）</label>
+                <input type="number" class="input-field" id="durationValue" min="0" placeholder="如 30">
+            </div>
+            <div class="progress-input-group">
+                <label>完成度备注</label>
+                <input type="text" class="input-field" id="progressNote" placeholder="如 读完第3章">
+            </div>
+            <div class="modal-btns">
+                <button class="btn-cancel" onclick="closeProgressModal()">取消</button>
+                <button class="btn-confirm" onclick="confirmProgress()">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 体重录入弹窗 -->
+    <div class="modal-overlay" id="weightModal">
+        <div class="modal progress-modal">
+            <div class="modal-title">记录体重</div>
+            <div class="progress-input-group">
+                <label>今日体重 (kg)</label>
+                <input type="number" class="input-field" id="weightValue" step="0.1" placeholder="如 65.5">
+            </div>
+            <div class="modal-btns">
+                <button class="btn-cancel" onclick="closeWeightModal()">取消</button>
+                <button class="btn-confirm" onclick="confirmWeight()">记录</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 收录招聘信息弹窗 -->
+    <div class="modal-overlay" id="jobModal">
+        <div class="modal progress-modal">
+            <div class="modal-title">收录招聘信息</div>
+            <div class="progress-input-group">
+                <label>岗位名称 *</label>
+                <input type="text" class="input-field" id="jobTitle" placeholder="如：小学心理教师">
+            </div>
+            <div class="progress-input-group">
+                <label>招聘单位</label>
+                <input type="text" class="input-field" id="jobCompany" placeholder="如：XX市教育局">
+            </div>
+            <div class="progress-input-group">
+                <label>岗位类别</label>
+                <select class="input-field" id="jobCategory">
+                    <option value="心理教师">心理教师</option>
+                    <option value="人事行政">人事行政</option>
+                </select>
+            </div>
+            <div class="progress-input-group">
+                <label>来源网站</label>
+                <input type="text" class="input-field" id="jobSource" placeholder="如：BOSS直聘">
+            </div>
+            <div class="progress-input-group">
+                <label>链接（可选）</label>
+                <input type="url" class="input-field" id="jobUrl" placeholder="粘贴招聘详情页链接">
+            </div>
+            <div class="progress-input-group">
+                <label>备注</label>
+                <input type="text" class="input-field" id="jobNote" placeholder="如：截止11月30日报名">
+            </div>
+            <div class="modal-btns">
+                <button class="btn-cancel" onclick="closeJobModal()">取消</button>
+                <button class="btn-confirm" onclick="confirmAddJob()">收录</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast 提示 -->
+    <div class="toast" id="toast"></div>
+
+    <!-- 全屏星光特效层 -->
+    <div class="sparkle-layer" id="sparkleLayer"></div>
+
+    <script>
+/* ============================================
+   小张不爱吃章鱼 · 移动端工作台核心逻辑
+   ============================================ */
+
+// ========== 全局状态 ==========
+let currentModule = 'study';
+let currentProgressTaskId = null;
+let currentStage = 'mid'; // 幼儿阶段：mid(中班) / senior(大班)
+let yoyoSubStage = 'mid'; // 幼儿子阶段切换
+
+// ========== 模块配置 ==========
+const moduleConfig = {
+    study: {
+        name: '学习任务',
+        icon: '📚',
+        motivation: '自律沉淀，日积月累，终会繁花似锦！',
+        reward: '完成当日学习，解锁学识勋章，积累备考能量！'
+    },
+    work: {
+        name: '工作计划',
+        icon: '💼',
+        motivation: '每日复盘精进，稳步成长，高效前行！',
+        reward: '完成复盘总结，解锁高效职场达人碎片！'
+    },
+    hot: {
+        name: '当日热点',
+        icon: '🔥',
+        motivation: '洞察时事，拓宽眼界，紧跟时代步伐！',
+        reward: '完成当日热点阅览，解锁视野提升进度！'
+    },
+    fitness: {
+        name: '健身打卡',
+        icon: '💪',
+        motivation: '运动赋能，自律塑形，遇见更好的自己！',
+        reward: '完成40分钟健身，解锁活力体能勋章，累计运动天数解锁专属成就！'
+    },
+    yoyo: {
+        name: '佑佑幼儿园',
+        icon: '🌟',
+        motivation: '用心陪伴成长，静待花开，解锁宝贝无限潜能！',
+        reward: '完成当日亲子学习计划，解锁宝贝成长星光，累计打卡兑换成长纪念勋章！'
+    }
+};
+
+// ========== 数据结构定义 ==========
+
+// 获取今日日期key
+function getTodayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+// 初始化默认任务数据
+function getDefaultTasks() {
+    return {
+        study: [
+            {
+                id: 'study_english',
+                name: '英语学习',
+                icon: '🔤',
+                desc: '每日学习英语30分钟',
+                type: 'daily',
+                dailyTarget: 30,
+                custom: false
+            },
+            {
+                id: 'study_teacher',
+                name: '教资面试备考',
+                icon: '📖',
+                desc: '每日学习教资面试结构化一篇及试讲一篇',
+                type: 'limited',
+                dailyTarget: 0,
+                endDate: '2026-12-06',
+                custom: false
+            },
+            {
+                id: 'study_kaoyan',
+                name: '考研备考',
+                icon: '🎓',
+                desc: '每日学习考研英语1小时 + 专业课1小时',
+                type: 'conditional',
+                dailyTarget: 120,
+                startDate: '2026-12-06',
+                custom: false
+            }
+        ],
+        work: [
+            {
+                id: 'work_review',
+                name: '每日工作复盘',
+                icon: '📝',
+                desc: '每日工作复盘30分钟，梳理当日工作得失、待办事项、次日规划',
+                type: 'daily',
+                dailyTarget: 30,
+                custom: false
+            }
+        ],
+        hot: [], // 热点资讯动态获取
+        fitness: [
+            {
+                id: 'fitness_daily',
+                name: '每日健身打卡',
+                icon: '🏃',
+                desc: '40分钟标准化健身计划',
+                type: 'daily',
+                dailyTarget: 40,
+                custom: false
+            }
+        ],
+        yoyo: [
+            // 中班阶段
+            {
+                id: 'yoyo_language',
+                name: '语言表达',
+                icon: '🗣️',
+                desc: '每日15分钟：亲子绘本共读、短句复述、日常情景对话',
+                type: 'daily',
+                dailyTarget: 15,
+                stage: 'mid',
+                custom: false
+            },
+            {
+                id: 'yoyo_math',
+                name: '数理思维',
+                icon: '🔢',
+                desc: '每日10分钟：数物对应、10以内点数、简单分类配对、图形认知',
+                type: 'daily',
+                dailyTarget: 10,
+                stage: 'mid',
+                custom: false
+            },
+            {
+                id: 'yoyo_sport',
+                name: '运动体能',
+                icon: '⚽',
+                desc: '每日30分钟：户外跑跳、攀爬、投掷、平衡训练',
+                type: 'daily',
+                dailyTarget: 30,
+                stage: 'mid',
+                custom: false
+            },
+            {
+                id: 'yoyo_art',
+                name: '艺术启蒙',
+                icon: '🎨',
+                desc: '每周3次，每次15分钟：涂鸦、手工、简单儿歌律动',
+                type: 'weekly',
+                weeklyTarget: 3,
+                dailyTarget: 15,
+                stage: 'mid',
+                custom: false
+            },
+            {
+                id: 'yoyo_life',
+                name: '生活能力',
+                icon: '🍚',
+                desc: '全天渗透：自主吃饭、收拾玩具、简单穿衣',
+                type: 'daily',
+                dailyTarget: 0,
+                stage: 'mid',
+                custom: false
+            },
+            // 大班阶段
+            {
+                id: 'yoyo_reading',
+                name: '前阅读前书写',
+                icon: '✍️',
+                desc: '绘本深度阅读、故事创编、笔画控笔练习',
+                type: 'daily',
+                dailyTarget: 20,
+                stage: 'senior',
+                custom: false
+            },
+            {
+                id: 'yoyo_math2',
+                name: '数理进阶',
+                icon: '🧮',
+                desc: '20以内数量认知、简单数量分解、时间与货币基础认知',
+                type: 'daily',
+                dailyTarget: 15,
+                stage: 'senior',
+                custom: false
+            },
+            {
+                id: 'yoyo_science',
+                name: '科学探究',
+                icon: '🔬',
+                desc: '简单自然观察、趣味小实验、节气认知',
+                type: 'daily',
+                dailyTarget: 15,
+                stage: 'senior',
+                custom: false
+            },
+            {
+                id: 'yoyo_social',
+                name: '社交与品格',
+                icon: '🤝',
+                desc: '合作游戏、礼貌社交、情绪管理',
+                type: 'daily',
+                dailyTarget: 0,
+                stage: 'senior',
+                custom: false
+            }
+        ]
+    };
+}
+
+// 健身计划详情
+const fitnessPlan = [
+    { time: '5分钟', title: '热身阶段', content: '开合跳、关节环绕、动态拉伸，激活身体，避免运动损伤' },
+    { time: '30分钟', title: '主体训练', content: '有氧燃脂+简单力量结合：原地踏步、平板支撑、深蹲、卷腹、体态矫正训练' },
+    { time: '5分钟', title: '放松拉伸', content: '腿部、腰腹、肩背静态拉伸，缓解肌肉酸痛，改善久坐体态问题' }
+];
+
+// ========== 数据持久化 ==========
+
+function loadData() {
+    const saved = localStorage.getItem('octopus_workbench_data');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            return migrateData(data);
+        } catch(e) {
+            console.error('数据解析失败', e);
+        }
+    }
+    return {
+        dataVersion: 2,
+        tasks: getDefaultTasks(),
+        progress: {},
+        weightRecords: [],
+        fitnessStreak: 0,
+        lastFitnessDate: null,
+        customNavItems: [],
+        jobPosts: [],
+        hotNewsRead: {},
+        hotNewsCache: null,
+        hotNewsCacheDate: null
+    };
+}
+
+// 数据版本迁移：升级固定任务配置，保留用户自定义数据
+function migrateData(data) {
+    const VERSION = 2;
+    if (!data.dataVersion || data.dataVersion < VERSION) {
+        const defaults = getDefaultTasks();
+        // 保留 study 模块中的自定义任务，替换固定任务
+        if (data.tasks && data.tasks.study) {
+            const customStudy = data.tasks.study.filter(t => t.custom);
+            data.tasks.study = [...defaults.study, ...customStudy];
+        }
+        if (data.tasks && data.tasks.work) {
+            const customWork = data.tasks.work.filter(t => t.custom);
+            data.tasks.work = [...defaults.work, ...customWork];
+        }
+        if (!data.jobPosts) data.jobPosts = [];
+        data.dataVersion = VERSION;
+        localStorage.setItem('octopus_workbench_data', JSON.stringify(data));
+    }
+    if (!data.jobPosts) data.jobPosts = [];
+    return data;
+}
+
+function saveData() {
+    localStorage.setItem('octopus_workbench_data', JSON.stringify(appData));
+}
+
+let appData = loadData();
+
+// ========== 进度管理 ==========
+
+function getTaskProgress(taskId) {
+    const todayKey = getTodayKey();
+    if (!appData.progress[todayKey]) {
+        appData.progress[todayKey] = {};
+    }
+    if (!appData.progress[todayKey][taskId]) {
+        appData.progress[todayKey][taskId] = {
+            percent: 0,
+            duration: 0,
+            note: '',
+            completed: false
+        };
+    }
+    return appData.progress[todayKey][taskId];
+}
+
+function setTaskProgress(taskId, percent, duration, note) {
+    const todayKey = getTodayKey();
+    if (!appData.progress[todayKey]) {
+        appData.progress[todayKey] = {};
+    }
+    const existing = appData.progress[todayKey][taskId] || {};
+    appData.progress[todayKey][taskId] = {
+        percent: percent,
+        duration: duration || existing.duration || 0,
+        note: note || existing.note || '',
+        completed: percent >= 100 || existing.completed
+    };
+    saveData();
+}
+
+function toggleTaskComplete(taskId) {
+    const prog = getTaskProgress(taskId);
+    prog.completed = !prog.completed;
+    if (prog.completed) {
+        prog.percent = 100;
+    } else {
+        prog.percent = Math.min(prog.percent, 90);
+    }
+    saveData();
+}
+
+// ========== 导航栏渲染 ==========
+
+function renderNav() {
+    const navList = document.getElementById('navList');
+    navList.innerHTML = '';
+
+    // 固定菜单
+    Object.keys(moduleConfig).forEach(key => {
+        const config = moduleConfig[key];
+        const li = document.createElement('li');
+        li.className = `nav-item ${currentModule === key ? 'active' : ''}`;
+        li.onclick = () => switchModule(key);
+        li.innerHTML = `
+            <span class="nav-icon">${config.icon}</span>
+            <span class="nav-label">${config.name}</span>
+        `;
+        navList.appendChild(li);
+    });
+
+    // 自定义菜单
+    appData.customNavItems.forEach(nav => {
+        const li = document.createElement('li');
+        li.className = `nav-item custom ${currentModule === nav.id ? 'active' : ''}`;
+        li.onclick = () => switchModule(nav.id);
+        li.innerHTML = `
+            <button class="nav-delete" onclick="event.stopPropagation(); deleteCustomNav('${nav.id}')">×</button>
+            <span class="nav-icon">${nav.icon}</span>
+            <span class="nav-label">${nav.name}</span>
+        `;
+        navList.appendChild(li);
+    });
+}
+
+// ========== 模块切换 ==========
+
+function switchModule(moduleKey) {
+    currentModule = moduleKey;
+    renderNav();
+    renderContent();
+    updateBottomNav();
+
+    // 更新底部导航
+    document.querySelectorAll('.bottom-nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.module === moduleKey) {
+            item.classList.add('active');
+        }
+    });
+
+    // 弹出激励语
+    const config = moduleConfig[moduleKey] || getCustomNavConfig(moduleKey);
+    if (config) {
+        showMotivation(config.name, config.motivation);
+    }
+}
+
+function updateBottomNav() {
+    // 如果是自定义模块，底部导航不高亮
+    const isBuiltin = Object.keys(moduleConfig).includes(currentModule);
+    document.querySelectorAll('.bottom-nav-item').forEach(item => {
+        item.classList.toggle('active', isBuiltin && item.dataset.module === currentModule);
+    });
+}
+
+function getCustomNavConfig(navId) {
+    const nav = appData.customNavItems.find(n => n.id === navId);
+    if (nav) {
+        return {
+            name: nav.name,
+            icon: nav.icon,
+            motivation: '自定义任务，随心开启！',
+            reward: '完成任务，解锁自定义勋章！'
+        };
+    }
+    return null;
+}
+
+// ========== 内容渲染 ==========
+
+function renderContent() {
+    const contentArea = document.getElementById('contentArea');
+    contentArea.innerHTML = '';
+
+    if (currentModule === 'study') {
+        renderStudyModule(contentArea);
+    } else if (currentModule === 'work') {
+        renderWorkModule(contentArea);
+    } else if (currentModule === 'hot') {
+        renderHotModule(contentArea);
+    } else if (currentModule === 'fitness') {
+        renderFitnessModule(contentArea);
+    } else if (currentModule === 'yoyo') {
+        renderYoyoModule(contentArea);
+    } else {
+        // 自定义模块
+        renderCustomModule(contentArea, currentModule);
+    }
+
+    updateOverallProgress();
+}
+
+// ========== 学习任务模块 ==========
+
+function renderStudyModule(container) {
+    const config = moduleConfig.study;
+    let html = `
+        <div class="module-header">
+            <div class="module-title">${config.icon} ${config.name}</div>
+            <div class="module-subtitle">自律沉淀，日积月累</div>
+        </div>
+    `;
+
+    // 教资倒计时 + 考研开启预告
+    const teacherTask = appData.tasks.study.find(t => t.id === 'study_teacher');
+    if (teacherTask) {
+        const daysLeft = calcDaysLeft(teacherTask.endDate);
+        if (daysLeft >= 0) {
+            html += `
+                <div class="countdown-card">
+                    <div class="countdown-label">教资面试倒计时</div>
+                    <div class="countdown-days">${daysLeft}</div>
+                    <div class="countdown-unit">天</div>
+                    <div class="countdown-target">目标日期：${teacherTask.endDate} · 12月6日自动切换考研模式</div>
+                </div>
+            `;
+        }
+    }
+
+    // 任务列表
+    appData.tasks.study.forEach(task => {
+        // 检查任务是否激活
+        if (task.type === 'conditional' && task.startDate) {
+            const startDays = calcDaysLeft(task.startDate);
+            if (startDays > 0) {
+                // 未到开始日期，显示待开启
+                html += `
+                    <div class="task-card" style="opacity:0.5;">
+                        <div class="task-card-header">
+                            <div class="task-info">
+                                <div class="task-name">${task.icon} ${task.name}</div>
+                                <div class="task-desc">${task.desc}</div>
+                                <div class="task-meta">
+                                    <span class="task-tag tag-countdown">⏳ ${startDays}天后开启</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+        }
+
+        // 如果教资已过期且是教资任务
+        if (task.type === 'limited' && task.endDate) {
+            const daysLeft = calcDaysLeft(task.endDate);
+            if (daysLeft < 0) {
+                html += `
+                    <div class="task-card" style="opacity:0.5;">
+                        <div class="task-card-header">
+                            <div class="task-info">
+                                <div class="task-name">${task.icon} ${task.name}</div>
+                                <div class="task-desc">${task.desc}</div>
+                                <div class="task-meta">
+                                    <span class="task-tag tag-countdown">✅ 已结束</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+        }
+
+        html += renderTaskCard(task);
+    });
+
+    // 新增任务按钮
+    html += `
+        <button class="btn-add-task" onclick="openAddTaskModal('study')">
+            ＋ 添加临时学习任务
+        </button>
+    `;
+
+    container.innerHTML = html;
+}
+
+// ========== 工作计划模块 ==========
+
+let jobFilter = 'all'; // 招聘筛选：all / teacher / admin / applied
+
+const jobSites = [
+    { name: 'BOSS直聘', url: 'https://www.zhipin.com', icon: '💼' },
+    { name: '智联招聘', url: 'https://www.zhaopin.com', icon: '🏢' },
+    { name: '前程无忧', url: 'https://www.51job.com', icon: '🌐' },
+    { name: '高校人才网', url: 'https://www.gaoxiaojob.com', icon: '🎓' },
+    { name: '中国教育人才网', url: 'https://www.jiaoyurencai.com', icon: '📚' },
+    { name: '猎聘', url: 'https://www.liepin.com', icon: '🚀' }
+];
+
+function renderWorkModule(container) {
+    const config = moduleConfig.work;
+    let html = `
+        <div class="module-header">
+            <div class="module-title">${config.icon} ${config.name}</div>
+            <div class="module-subtitle">每日复盘精进，稳步成长</div>
+        </div>
+    `;
+
+    // 固定复盘任务
+    appData.tasks.work.forEach(task => {
+        if (!task.custom) html += renderTaskCard(task);
+    });
+
+    // 临时任务区域
+    html += `<div style="margin-top:8px;font-size:0.75rem;color:var(--text-secondary);font-weight:600;">📌 临时工作任务</div>`;
+
+    const tempTasks = appData.tasks.work.filter(t => t.custom);
+    if (tempTasks.length === 0) {
+        html += `
+            <div class="empty-state">
+                <div class="empty-state-icon">📋</div>
+                <div class="empty-state-text">暂无临时任务，点击下方添加</div>
+            </div>
+        `;
+    } else {
+        tempTasks.forEach(task => {
+            html += renderTaskCard(task, 'work');
+        });
+    }
+
+    html += `
+        <button class="btn-add-task" onclick="openAddTaskModal('work')">
+            ＋ 新增临时工作任务
+        </button>
+    `;
+
+    // 招聘信息汇总平台
+    html += renderJobBoard();
+
+    container.innerHTML = html;
+}
+
+// ========== 招聘信息汇总平台 ==========
+
+function renderJobBoard() {
+    let html = `
+        <div class="job-board-section">
+            <div class="job-board-header">
+                <div class="job-board-title">🎯 招聘信息汇总平台</div>
+                <div class="job-board-subtitle">每日定时推送 · 心理教师 / 人事行政岗位收纳</div>
+            </div>
+    `;
+
+    // 快捷入口
+    html += `<div class="job-sites-row">`;
+    jobSites.forEach(site => {
+        html += `
+            <a class="job-site-chip" href="${site.url}" target="_blank" rel="noopener">
+                ${site.icon} ${site.name}
+            </a>
+        `;
+    });
+    html += `</div>`;
+
+    // 筛选标签
+    const posts = appData.jobPosts || [];
+    const teacherCount = posts.filter(p => p.category === '心理教师').length;
+    const adminCount = posts.filter(p => p.category === '人事行政').length;
+    const appliedCount = posts.filter(p => p.status === '已投递').length;
+
+    html += `
+        <div class="job-filter-row">
+            <button class="job-filter ${jobFilter === 'all' ? 'active' : ''}" onclick="setJobFilter('all')">全部 ${posts.length}</button>
+            <button class="job-filter ${jobFilter === 'teacher' ? 'active' : ''}" onclick="setJobFilter('teacher')">心理教师 ${teacherCount}</button>
+            <button class="job-filter ${jobFilter === 'admin' ? 'active' : ''}" onclick="setJobFilter('admin')">人事行政 ${adminCount}</button>
+            <button class="job-filter ${jobFilter === 'applied' ? 'active' : ''}" onclick="setJobFilter('applied')">已投递 ${appliedCount}</button>
+        </div>
+    `;
+
+    // 招聘信息列表
+    let filtered = posts;
+    if (jobFilter === 'teacher') filtered = posts.filter(p => p.category === '心理教师');
+    else if (jobFilter === 'admin') filtered = posts.filter(p => p.category === '人事行政');
+    else if (jobFilter === 'applied') filtered = posts.filter(p => p.status === '已投递');
+
+    if (filtered.length === 0) {
+        html += `
+            <div class="empty-state">
+                <div class="empty-state-icon">📬</div>
+                <div class="empty-state-text">暂无收录的招聘信息<br>浏览招聘网站时点击下方按钮收录</div>
+            </div>
+        `;
+    } else {
+        filtered.forEach(post => {
+            const statusColor = post.status === '已投递' ? 'var(--mint-deep)' : (post.status === '已收藏' ? 'var(--orange-deep)' : 'var(--text-secondary)');
+            html += `
+                <div class="job-post-card">
+                    <div class="job-post-header">
+                        <div class="job-post-main">
+                            <div class="job-post-title">${post.title}</div>
+                            <div class="job-post-company">${post.company || '未填写单位'}</div>
+                        </div>
+                        <span class="job-post-category">${post.category}</span>
+                    </div>
+                    <div class="job-post-meta">
+                        <span>📡 ${post.source || '未知来源'}</span>
+                        <span>📅 ${post.date || '未知日期'}</span>
+                        <span style="color:${statusColor};font-weight:600;">${post.status || '已收藏'}</span>
+                    </div>
+                    ${post.note ? `<div class="job-post-note">📝 ${post.note}</div>` : ''}
+                    <div class="job-post-actions">
+                        ${post.url ? `<a class="job-post-btn" href="${post.url}" target="_blank" rel="noopener">查看原文 ↗</a>` : ''}
+                        <button class="job-post-btn" onclick="cycleJobStatus('${post.id}')">${post.status === '已投递' ? '📮 已投递' : '⭐ 标记投递'}</button>
+                        <button class="job-post-btn job-delete" onclick="deleteJobPost('${post.id}')">🗑 删除</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    html += `
+        <button class="btn-add-task" onclick="openJobModal()">
+            ＋ 收录新招聘信息
+        </button>
+    </div>
+    `;
+
+    return html;
+}
+
+function setJobFilter(filter) {
+    jobFilter = filter;
+    renderContent();
+}
+
+function cycleJobStatus(id) {
+    const post = (appData.jobPosts || []).find(p => p.id === id);
+    if (!post) return;
+    post.status = post.status === '已投递' ? '已收藏' : '已投递';
+    saveData();
+    renderContent();
+    showToast(post.status === '已投递' ? '📮 已标记投递' : '已取消投递标记');
+}
+
+function deleteJobPost(id) {
+    if (confirm('确定删除这条招聘信息？')) {
+        appData.jobPosts = (appData.jobPosts || []).filter(p => p.id !== id);
+        saveData();
+        renderContent();
+        showToast('招聘信息已删除');
+    }
+}
+
+function openJobModal() {
+    document.getElementById('jobTitle').value = '';
+    document.getElementById('jobCompany').value = '';
+    document.getElementById('jobCategory').value = '心理教师';
+    document.getElementById('jobSource').value = '';
+    document.getElementById('jobUrl').value = '';
+    document.getElementById('jobNote').value = '';
+    document.getElementById('jobModal').classList.add('show');
+}
+
+function closeJobModal() {
+    document.getElementById('jobModal').classList.remove('show');
+}
+
+function confirmAddJob() {
+    const title = document.getElementById('jobTitle').value.trim();
+    const company = document.getElementById('jobCompany').value.trim();
+    const category = document.getElementById('jobCategory').value;
+    const source = document.getElementById('jobSource').value.trim();
+    const url = document.getElementById('jobUrl').value.trim();
+    const note = document.getElementById('jobNote').value.trim();
+
+    if (!title) {
+        showToast('请输入岗位名称');
+        return;
+    }
+
+    if (!appData.jobPosts) appData.jobPosts = [];
+    appData.jobPosts.unshift({
+        id: `job_${Date.now()}`,
+        title: title,
+        company: company,
+        category: category,
+        source: source,
+        url: url,
+        note: note,
+        date: getTodayKey(),
+        status: '已收藏'
+    });
+
+    saveData();
+    closeJobModal();
+    renderContent();
+    showToast('招聘信息已收录 ✅');
+}
+
+// ========== 当日热点模块 ==========
+
+function renderHotModule(container) {
+    const config = moduleConfig.hot;
+    let html = `
+        <div class="module-header">
+            <div class="module-title">${config.icon} ${config.name}</div>
+            <div class="module-subtitle">7:00-9:00 自动推送 · 实时更新</div>
+        </div>
+    `;
+
+    const todayKey = getTodayKey();
+    const readStatus = appData.hotNewsRead[todayKey] || {};
+
+    // 热点资讯
+    const newsList = getHotNews();
+
+    if (newsList.length === 0) {
+        html += `
+            <div class="empty-state">
+                <div class="empty-state-icon">📡</div>
+                <div class="empty-state-text">正在获取最新热点资讯...</div>
+            </div>
+        `;
+    } else {
+        newsList.forEach((news, idx) => {
+            const isRead = readStatus[idx];
+            html += `
+                <div class="hot-news-card ${isRead ? 'read' : ''}">
+                    <div class="hot-news-header">
+                        <div class="hot-news-title">${news.title}</div>
+                        <span class="hot-news-category">${news.category}</span>
+                    </div>
+                    <div class="hot-news-summary">${news.summary}</div>
+                    <div class="hot-news-footer">
+                        <span>${news.source}</span>
+                        <div class="hot-news-actions">
+                            <button class="hot-news-btn ${isRead ? 'active' : ''}" onclick="toggleHotRead(${idx})">
+                                ${isRead ? '✓ 已读' : '标记已读'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        // 热点阅览进度
+        const readCount = Object.values(readStatus).filter(Boolean).length;
+        const hotPercent = Math.round((readCount / newsList.length) * 100);
+        html += `
+            <div class="task-card">
+                <div class="task-card-header">
+                    <div class="task-info">
+                        <div class="task-name">🔥 当日热点阅览</div>
+                        <div class="task-desc">已读 ${readCount}/${newsList.length} 条</div>
+                    </div>
+                    <div class="task-checkbox ${hotPercent >= 100 ? 'checked' : ''}" onclick="toggleHotComplete(${hotPercent})"></div>
+                </div>
+                <div class="progress-section">
+                    <div class="progress-bar-wrap">
+                        <div class="progress-bar" style="width:${hotPercent}%"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span class="progress-percent">${hotPercent}%</span>
+                        <button class="btn-progress" onclick="openProgressModal('hot_daily')">录入进度</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    container.innerHTML = html;
+}
+
+function getHotNews() {
+    const todayKey = getTodayKey();
+
+    // 检查缓存
+    if (appData.hotNewsCache && appData.hotNewsCacheDate === todayKey) {
+        return appData.hotNewsCache;
+    }
+
+    // 生成模拟热点数据（基于当日日期种子）
+    const seed = new Date().getDate();
+    const newsPool = [
+        { title: '国务院发布最新经济政策，强调高质量发展', category: '政治', summary: '会议指出要持续推进经济结构优化升级，加大对中小企业支持力度，确保全年经济增长目标顺利实现。', source: '新华社' },
+        { title: 'A股三大指数集体收涨，科技板块领涨', category: '财经', summary: '今日收盘，沪指涨0.8%，深成指涨1.2%，创业板指涨1.5%。半导体、人工智能概念股表现活跃，北向资金净流入超50亿。', source: '财经网' },
+        { title: '多地启动城市更新计划，老旧小区改造提速', category: '社会', summary: '全国多个城市发布城市更新行动方案，重点推进老旧小区改造、地下管网升级，惠及数百万居民。', source: '人民日报' },
+        { title: '教育部：加强中小学科学教育，培养创新人才', category: '教育', summary: '教育部发布指导意见，要求各地中小学开齐开足科学课程，推进实验教学改革，培养学生科学素养和创新能力。', source: '中国教育报' },
+        { title: '新一轮医保目录调整启动，更多创新药纳入', category: '民生', summary: '国家医保局启动2026年医保药品目录调整工作，预计将有更多创新药、罕见病用药通过谈判纳入医保。', source: '健康报' },
+        { title: '全国铁路暑运客流持续高位运行', category: '社会', summary: '暑期铁路客流量持续攀升，多地加开临客列车满足出行需求，高铁成为旅客首选出行方式。', source: '铁路新闻网' },
+        { title: '新能源车销量再创新高，出口增长强劲', category: '财经', summary: '最新数据显示，新能源汽车国内销量和出口量双双增长，中国品牌在全球市场份额持续扩大。', source: '经济日报' },
+        { title: '多地高温预警，防暑降温需注意', category: '民生', summary: '中央气象台发布高温黄色预警，多地气温突破35℃，提醒市民注意防暑降温、减少户外活动。', source: '中国天气网' },
+        { title: '人工智能大模型应用场景持续拓展', category: '科技', summary: 'AI大模型在医疗、教育、金融等领域加速落地应用，产业智能化转型进入快车道。', source: '科技日报' },
+        { title: '乡村振兴成效显著，农民增收渠道拓宽', category: '社会', summary: '各地推进特色产业助农增收，电商进村、文旅融合等新模式带动农村经济发展。', source: '农民日报' }
+    ];
+
+    // 基于日期种子选择不同组合
+    const selected = [];
+    const indices = [...Array(newsPool.length).keys()];
+    // 每日选6条
+    for (let i = 0; i < 6; i++) {
+        const idx = (seed + i * 3) % indices.length;
+        selected.push(newsPool[indices[idx]]);
+        indices.splice(idx, 1);
+    }
+
+    appData.hotNewsCache = selected;
+    appData.hotNewsCacheDate = todayKey;
+    saveData();
+
+    return selected;
+}
+
+function toggleHotRead(idx) {
+    const todayKey = getTodayKey();
+    if (!appData.hotNewsRead[todayKey]) {
+        appData.hotNewsRead[todayKey] = {};
+    }
+    appData.hotNewsRead[todayKey][idx] = !appData.hotNewsRead[todayKey][idx];
+    saveData();
+    renderContent();
+}
+
+function toggleHotComplete(percent) {
+    if (percent >= 100) {
+        // 取消完成
+        const todayKey = getTodayKey();
+        const newsList = getHotNews();
+        appData.hotNewsRead[todayKey] = {};
+        saveData();
+    } else {
+        // 全部标记已读
+        const todayKey = getTodayKey();
+        const newsList = getHotNews();
+        if (!appData.hotNewsRead[todayKey]) {
+            appData.hotNewsRead[todayKey] = {};
+        }
+        newsList.forEach((_, idx) => {
+            appData.hotNewsRead[todayKey][idx] = true;
+        });
+        saveData();
+        showReward('热点阅览完成！', moduleConfig.hot.reward);
+    }
+    renderContent();
+}
+
+// ========== 健身打卡模块 ==========
+
+function renderFitnessModule(container) {
+    const config = moduleConfig.fitness;
+    let html = `
+        <div class="module-header">
+            <div class="module-title">${config.icon} ${config.name}</div>
+            <div class="module-subtitle">19:00-20:00 专属健身时段 · 40分钟标准计划</div>
+        </div>
+    `;
+
+    // 累计运动天数
+    html += `
+        <div class="streak-card">
+            <div class="streak-number">${appData.fitnessStreak || 0}</div>
+            <div class="streak-label">累计运动天数 🔥</div>
+        </div>
+    `;
+
+    // 体重记录
+    const lastWeight = appData.weightRecords.length > 0 ? appData.weightRecords[appData.weightRecords.length - 1] : null;
+    const prevWeight = appData.weightRecords.length > 1 ? appData.weightRecords[appData.weightRecords.length - 2] : null;
+    let trend = '';
+    if (lastWeight && prevWeight) {
+        const diff = (lastWeight.weight - prevWeight.weight).toFixed(1);
+        if (diff < 0) {
+            trend = `<span class="trend-down">↓ ${Math.abs(diff)}kg</span> 较上次`;
+        } else if (diff > 0) {
+            trend = `<span class="trend-up">↑ ${diff}kg</span> 较上次`;
+        } else {
+            trend = `<span>— 持平</span>`;
+        }
+    }
+
+    html += `
+        <div class="weight-record-card">
+            <div style="font-size:0.8rem;font-weight:600;color:var(--text-primary);">⚖️ 体重记录</div>
+            ${lastWeight ? `
+                <div class="weight-display">
+                    <span class="weight-value">${lastWeight.weight}</span>
+                    <span class="weight-unit">kg</span>
+                </div>
+                <div class="weight-trend">${trend || '首次记录'}</div>
+            ` : `
+                <div style="text-align:center;padding:12px 0;color:var(--text-light);font-size:0.78rem;">尚未记录体重</div>
+            `}
+            <button class="btn-progress" style="width:100%;padding:8px;" onclick="openWeightModal()">📝 记录今日体重</button>
+        </div>
+    `;
+
+    // 健身计划详情
+    html += `
+        <div class="fitness-plan-card">
+            <div class="fitness-plan-title">🏃 40分钟标准化每日计划</div>
+    `;
+    fitnessPlan.forEach(item => {
+        html += `
+            <div class="fitness-plan-item">
+                <div class="fitness-plan-time">${item.time}</div>
+                <div class="fitness-plan-content">
+                    <strong>${item.title}</strong>
+                    ${item.content}
+                </div>
+            </div>
+        `;
+    });
+    html += `</div>`;
+
+    // 健身打卡任务
+    appData.tasks.fitness.forEach(task => {
+        html += renderTaskCard(task);
+    });
+
+    // 新增自定义健身任务
+    html += `
+        <button class="btn-add-task" onclick="openAddTaskModal('fitness')">
+            ＋ 添加自定义运动项目
+        </button>
+    `;
+
+    container.innerHTML = html;
+}
+
+// ========== 佑佑幼儿园模块 ==========
+
+function renderYoyoModule(container) {
+    const config = moduleConfig.yoyo;
+    let html = `
+        <div class="module-header">
+            <div class="module-title">${config.icon} ${config.name}</div>
+            <div class="module-subtitle">3岁10个月 · 中班过渡-大班进阶</div>
+        </div>
+    `;
+
+    // 教育理念信息
+    html += `
+        <div class="yoyo-info-box">
+            <strong>📚 教育理念</strong><br>
+            遵循《3-6岁儿童学习与发展指南》，以儿童为本、生活为源、游戏为径。融合蒙氏教育、瑞吉欧探究式学习、美式沉浸式启蒙，拒绝超前小学化教学。
+        </div>
+    `;
+
+    // 阶段切换
+    html += `
+        <div class="stage-tabs">
+            <button class="stage-tab ${yoyoSubStage === 'mid' ? 'active' : ''}" onclick="switchYoyoStage('mid')">
+                中班 (4-5岁)<br><small>当前核心</small>
+            </button>
+            <button class="stage-tab ${yoyoSubStage === 'senior' ? 'active' : ''}" onclick="switchYoyoStage('senior')">
+                大班 (5-6岁)<br><small>进阶预备</small>
+            </button>
+        </div>
+    `;
+
+    // 阶段目标
+    if (yoyoSubStage === 'mid') {
+        html += `
+            <div class="yoyo-info-box" style="background:linear-gradient(135deg,var(--mint-light),var(--cream-soft));">
+                <strong>🎯 中班培养目标</strong><br>
+                建立规则意识、提升肢体协调性、锻炼语言表达、培养基础数感、激发探索好奇心、养成良好作息与学习习惯
+            </div>
+        `;
+    } else {
+        html += `
+            <div class="yoyo-info-box" style="background:linear-gradient(135deg,var(--orange-light),var(--cream-soft));">
+                <strong>🎯 大班培养目标</strong><br>
+                强化自主学习意识、提升问题解决能力、锻炼专注力、做好科学幼小衔接、提升社交与表达能力
+            </div>
+        `;
+    }
+
+    // 任务列表
+    const stageTasks = appData.tasks.yoyo.filter(t => t.stage === yoyoSubStage);
+    stageTasks.forEach(task => {
+        html += renderTaskCard(task, 'yoyo');
+    });
+
+    // 新增亲子任务
+    html += `
+        <button class="btn-add-task" onclick="openAddTaskModal('yoyo')">
+            ＋ 添加亲子任务
+        </button>
+    `;
+
+    container.innerHTML = html;
+}
+
+function switchYoyoStage(stage) {
+    yoyoSubStage = stage;
+    renderContent();
+}
+
+// ========== 自定义模块 ==========
+
+function renderCustomModule(container, moduleId) {
+    const nav = appData.customNavItems.find(n => n.id === moduleId);
+    if (!nav) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-text">模块不存在</div></div>';
+        return;
+    }
+
+    let html = `
+        <div class="module-header">
+            <div class="module-title">${nav.icon} ${nav.name}</div>
+            <div class="module-subtitle">自定义任务模块</div>
+        </div>
+    `;
+
+    if (!appData.tasks[moduleId]) {
+        appData.tasks[moduleId] = [];
+    }
+
+    if (appData.tasks[moduleId].length === 0) {
+        html += `
+            <div class="empty-state">
+                <div class="empty-state-icon">📋</div>
+                <div class="empty-state-text">暂无任务，点击下方添加</div>
+            </div>
+        `;
+    } else {
+        appData.tasks[moduleId].forEach(task => {
+            html += renderTaskCard(task, moduleId);
+        });
+    }
+
+    html += `
+        <button class="btn-add-task" onclick="openAddTaskModal('${moduleId}')">
+            ＋ 新增任务
+        </button>
+    `;
+
+    container.innerHTML = html;
+}
+
+// ========== 通用任务卡片渲染 ==========
+
+function renderTaskCard(task, moduleKey) {
+    const prog = getTaskProgress(task.id);
+    const taskId = task.id;
+    const isCompleted = prog.completed;
+    const percent = prog.percent;
+
+    let metaTags = '';
+    if (task.type === 'daily') {
+        metaTags += `<span class="task-tag tag-daily">每日</span>`;
+    } else if (task.type === 'limited') {
+        metaTags += `<span class="task-tag tag-limited">限时</span>`;
+    } else if (task.type === 'conditional') {
+        metaTags += `<span class="task-tag tag-limited">待开启</span>`;
+    } else if (task.type === 'weekly') {
+        metaTags += `<span class="task-tag tag-daily">每周</span>`;
+    }
+    if (task.custom) {
+        metaTags += `<span class="task-tag" style="background:var(--orange-light);color:var(--orange-deep);">自定义</span>`;
+    }
+
+    return `
+        <div class="task-card ${isCompleted ? 'completed' : ''}" data-task-id="${taskId}">
+            <div class="task-card-header">
+                <div class="task-info">
+                    <div class="task-name">${task.icon || '📌'} ${task.name}</div>
+                    ${task.desc ? `<div class="task-desc">${task.desc}</div>` : ''}
+                    <div class="task-meta">${metaTags}</div>
+                </div>
+                <div class="task-actions">
+                    ${task.custom ? `<button class="btn-delete-task" onclick="deleteTask('${moduleKey || currentModule}','${taskId}')">🗑</button>` : ''}
+                    <div class="task-checkbox ${isCompleted ? 'checked' : ''}" onclick="toggleTask('${taskId}')"></div>
+                </div>
+            </div>
+            <div class="progress-section">
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar" style="width:${percent}%"></div>
+                </div>
+                <div class="progress-info">
+                    <span class="progress-percent">${percent}%</span>
+                    <button class="btn-progress" onclick="openProgressModal('${taskId}')">录入进度</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// ========== 任务操作 ==========
+
+function toggleTask(taskId) {
+    const prog = getTaskProgress(taskId);
+    const wasCompleted = prog.completed;
+    toggleTaskComplete(taskId);
+
+    if (!wasCompleted && prog.completed) {
+        // 刚完成
+        const config = moduleConfig[currentModule] || getCustomNavConfig(currentModule);
+        if (config) {
+            showReward('任务完成！', config.reward);
+        }
+
+        // 健身任务特殊处理
+        if (taskId === 'fitness_daily') {
+            const todayKey = getTodayKey();
+            if (appData.lastFitnessDate !== todayKey) {
+                appData.fitnessStreak = (appData.fitnessStreak || 0) + 1;
+                appData.lastFitnessDate = todayKey;
+                saveData();
+            }
+        }
+    }
+
+    renderContent();
+}
+
+function deleteTask(moduleKey, taskId) {
+    if (confirm('确定删除此任务？')) {
+        appData.tasks[moduleKey] = appData.tasks[moduleKey].filter(t => t.id !== taskId);
+        saveData();
+        renderContent();
+        showToast('任务已删除');
+    }
+}
+
+// ========== 新增任务 ==========
+
+let addTaskTargetModule = null;
+
+function openAddTaskModal(moduleKey) {
+    addTaskTargetModule = moduleKey;
+    document.getElementById('newTaskName').value = '';
+    document.getElementById('newTaskDesc').value = '';
+    document.getElementById('addTaskModal').classList.add('show');
+}
+
+function closeAddTaskModal() {
+    document.getElementById('addTaskModal').classList.remove('show');
+}
+
+function confirmAddTask() {
+    const name = document.getElementById('newTaskName').value.trim();
+    const desc = document.getElementById('newTaskDesc').value.trim();
+
+    if (!name) {
+        showToast('请输入任务名称');
+        return;
+    }
+
+    const taskId = `custom_${Date.now()}`;
+    const newTask = {
+        id: taskId,
+        name: name,
+        icon: '📌',
+        desc: desc,
+        type: 'daily',
+        dailyTarget: 0,
+        custom: true
+    };
+
+    // 如果是佑佑模块，添加当前阶段
+    if (addTaskTargetModule === 'yoyo') {
+        newTask.stage = yoyoSubStage;
+    }
+
+    if (!appData.tasks[addTaskTargetModule]) {
+        appData.tasks[addTaskTargetModule] = [];
+    }
+    appData.tasks[addTaskTargetModule].push(newTask);
+    saveData();
+
+    closeAddTaskModal();
+    renderContent();
+    showToast('任务已添加 ✅');
+}
+
+// ========== 新增导航菜单 ==========
+
+function openAddNavModal() {
+    document.getElementById('newNavName').value = '';
+    document.getElementById('newNavIcon').value = '';
+    document.getElementById('addNavModal').classList.add('show');
+}
+
+function closeAddNavModal() {
+    document.getElementById('addNavModal').classList.remove('show');
+}
+
+function confirmAddNav() {
+    const name = document.getElementById('newNavName').value.trim();
+    let icon = document.getElementById('newNavIcon').value.trim();
+
+    if (!name) {
+        showToast('请输入菜单名称');
+        return;
+    }
+    if (!icon) icon = '📋';
+
+    const navId = `custom_nav_${Date.now()}`;
+    appData.customNavItems.push({
+        id: navId,
+        name: name,
+        icon: icon
+    });
+
+    if (!appData.tasks[navId]) {
+        appData.tasks[navId] = [];
+    }
+
+    saveData();
+    closeAddNavModal();
+    renderNav();
+    showToast('导航菜单已添加 ✅');
+}
+
+function deleteCustomNav(navId) {
+    if (confirm('确定删除此导航菜单及其所有任务？')) {
+        appData.customNavItems = appData.customNavItems.filter(n => n.id !== navId);
+        delete appData.tasks[navId];
+        saveData();
+
+        if (currentModule === navId) {
+            switchModule('study');
+        } else {
+            renderNav();
+        }
+        showToast('菜单已删除');
+    }
+}
+
+// ========== 进度录入 ==========
+
+function openProgressModal(taskId) {
+    currentProgressTaskId = taskId;
+    const prog = getTaskProgress(taskId);
+
+    document.getElementById('progressTaskName').textContent = getTaskName(taskId);
+    document.getElementById('progressValue').value = prog.percent || '';
+    document.getElementById('durationValue').value = prog.duration || '';
+    document.getElementById('progressNote').value = prog.note || '';
+
+    document.getElementById('progressModal').classList.add('show');
+}
+
+function closeProgressModal() {
+    document.getElementById('progressModal').classList.remove('show');
+    currentProgressTaskId = null;
+}
+
+function confirmProgress() {
+    const percent = Math.min(100, Math.max(0, parseInt(document.getElementById('progressValue').value) || 0));
+    const duration = parseInt(document.getElementById('durationValue').value) || 0;
+    const note = document.getElementById('progressNote').value.trim();
+
+    setTaskProgress(currentProgressTaskId, percent, duration, note);
+
+    if (percent >= 100) {
+        const prog = getTaskProgress(currentProgressTaskId);
+        if (!prog.completed) {
+            prog.completed = true;
+            saveData();
+            const config = moduleConfig[currentModule] || getCustomNavConfig(currentModule);
+            if (config) {
+                setTimeout(() => showReward('进度完成！', config.reward), 300);
+            }
+        }
+    }
+
+    closeProgressModal();
+    renderContent();
+    showToast('进度已更新 ✅');
+}
+
+function getTaskName(taskId) {
+    for (const moduleKey of Object.keys(appData.tasks)) {
+        const task = appData.tasks[moduleKey].find(t => t.id === taskId);
+        if (task) return task.name;
+    }
+    // 热点特殊任务
+    if (taskId === 'hot_daily') return '当日热点阅览';
+    return '任务';
+}
+
+// ========== 体重记录 ==========
+
+function openWeightModal() {
+    document.getElementById('weightValue').value = '';
+    document.getElementById('weightModal').classList.add('show');
+}
+
+function closeWeightModal() {
+    document.getElementById('weightModal').classList.remove('show');
+}
+
+function confirmWeight() {
+    const weight = parseFloat(document.getElementById('weightValue').value);
+
+    if (!weight || weight <= 0 || weight > 500) {
+        showToast('请输入有效体重');
+        return;
+    }
+
+    const todayKey = getTodayKey();
+    // 检查今日是否已记录
+    const existingIdx = appData.weightRecords.findIndex(r => r.date === todayKey);
+    if (existingIdx >= 0) {
+        appData.weightRecords[existingIdx].weight = weight;
+    } else {
+        appData.weightRecords.push({ date: todayKey, weight: weight });
+    }
+
+    saveData();
+    closeWeightModal();
+    renderContent();
+    showToast('体重已记录 ✅');
+}
+
+// ========== 激励语弹窗 ==========
+
+function showMotivation(title, text) {
+    document.getElementById('motivationTitle').textContent = title;
+    document.getElementById('motivationText').textContent = text;
+    const modal = document.getElementById('motivationModal');
+    modal.classList.add('show');
+
+    // 自动消失
+    setTimeout(() => {
+        if (modal.classList.contains('show')) {
+            closeMotivation();
+        }
+    }, 2500);
+}
+
+function closeMotivation() {
+    document.getElementById('motivationModal').classList.remove('show');
+}
+
+// ========== 闯关奖励特效 ==========
+
+function showReward(title, desc) {
+    document.getElementById('rewardTitle').textContent = title;
+    document.getElementById('rewardDesc').textContent = desc;
+
+    // 生成星光
+    const starsContainer = document.getElementById('rewardStars');
+    starsContainer.innerHTML = '';
+    const stars = ['⭐', '✨', '🌟', '💫', '⚡'];
+    for (let i = 0; i < 12; i++) {
+        const star = document.createElement('div');
+        star.className = 'reward-star';
+        star.textContent = stars[Math.floor(Math.random() * stars.length)];
+        const angle = (Math.PI * 2 * i) / 12;
+        const distance = 80 + Math.random() * 60;
+        star.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+        star.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
+        star.style.left = '50%';
+        star.style.top = '50%';
+        star.style.animationDelay = `${i * 0.05}s`;
+        starsContainer.appendChild(star);
+    }
+
+    document.getElementById('rewardOverlay').classList.add('show');
+
+    // 触发星光闪烁
+    triggerSparkle();
+}
+
+function closeReward() {
+    document.getElementById('rewardOverlay').classList.remove('show');
+}
+
+// ========== 星光特效 ==========
+
+function triggerSparkle() {
+    const layer = document.getElementById('sparkleLayer');
+    const sparkles = ['✨', '⭐', '🌟', '💫'];
+    for (let i = 0; i < 15; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+        sparkle.style.left = `${Math.random() * 100}%`;
+        sparkle.style.top = `${Math.random() * 100}%`;
+        sparkle.style.fontSize = `${1 + Math.random() * 1.5}rem`;
+        sparkle.style.animationDelay = `${Math.random() * 0.5}s`;
+        layer.appendChild(sparkle);
+
+        setTimeout(() => sparkle.remove(), 1500);
+    }
+}
+
+// ========== Toast 提示 ==========
+
+function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ========== 工具函数 ==========
+
+function calcDaysLeft(targetDate) {
+    const target = new Date(targetDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    target.setHours(0, 0, 0, 0);
+    const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+    return diff;
+}
+
+function updateOverallProgress() {
+    // 计算当前模块所有任务的完成进度
+    let totalTasks = 0;
+    let completedTasks = 0;
+    let totalPercent = 0;
+
+    const tasks = appData.tasks[currentModule] || [];
+    tasks.forEach(task => {
+        // 过滤阶段不匹配的佑佑任务
+        if (task.stage && task.stage !== yoyoSubStage) return;
+        // 过滤未激活的任务
+        if (task.type === 'conditional' && task.startDate && calcDaysLeft(task.startDate) > 0) return;
+        if (task.type === 'limited' && task.endDate && calcDaysLeft(task.endDate) < 0) return;
+
+        totalTasks++;
+        const prog = getTaskProgress(task.id);
+        if (prog.completed) completedTasks++;
+        totalPercent += prog.percent;
+    });
+
+    const avgPercent = totalTasks > 0 ? Math.round(totalPercent / totalTasks) : 0;
+    document.getElementById('overallBar').style.height = `${avgPercent}%`;
+    document.getElementById('overallPercent').textContent = `${avgPercent}%`;
+}
+
+// ========== 时间与定时机制 ==========
+
+function updateTime() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+
+    // 日历组件填充
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+    const weekIdx = now.getDay();
+
+    const monthEl = document.getElementById('calMonth');
+    const dayEl = document.getElementById('calDay');
+    const weekEl = document.getElementById('calWeek');
+    const timeEl = document.getElementById('currentTime');
+
+    if (monthEl) monthEl.textContent = `${month}月`;
+    if (dayEl) dayEl.textContent = day;
+    if (weekEl) weekEl.textContent = `周${weekDays[weekIdx]}`;
+    if (timeEl) timeEl.textContent = `${h}:${m}:${s}`;
+
+    // 状态指示灯（隐藏但保留逻辑）
+    const hour = now.getHours();
+    if (hour >= 13 && hour < 14) {
+        showRestMask();
+    } else {
+        hideRestMask();
+    }
+
+    // 定时检查
+    checkScheduledTasks();
+}
+
+let restMaskShown = false;
+
+function showRestMask() {
+    if (!restMaskShown) {
+        let mask = document.getElementById('restMaskEl');
+        if (!mask) {
+            mask = document.createElement('div');
+            mask.id = 'restMaskEl';
+            mask.className = 'rest-mask';
+            mask.innerHTML = `
+                <div class="rest-mask-icon">😴</div>
+                <div class="rest-mask-title">午休时间</div>
+                <div class="rest-mask-text">13:00-14:00 静默免打扰<br>工作台已暂停所有提醒<br>好好休息一下吧～</div>
+            `;
+            document.body.appendChild(mask);
+        }
+        mask.classList.add('show');
+        restMaskShown = true;
+    }
+}
+
+function hideRestMask() {
+    const mask = document.getElementById('restMaskEl');
+    if (mask && restMaskShown) {
+        mask.classList.remove('show');
+        restMaskShown = false;
+    }
+}
+
+let lastHotPushDate = null;
+let lastFitnessReminderDate = null;
+let fitnessReminderShown = false;
+
+function checkScheduledTasks() {
+    const now = new Date();
+    const hour = now.getHours();
+    const todayKey = getTodayKey();
+
+    // 热点推送：7:00-9:00
+    if (hour >= 7 && hour < 9) {
+        if (lastHotPushDate !== todayKey) {
+            lastHotPushDate = todayKey;
+            // 自动刷新热点缓存
+            appData.hotNewsCache = null;
+            saveData();
+            if (currentModule === 'hot') {
+                renderContent();
+            }
+        }
+    }
+
+    // 健身提醒：19:00-20:00
+    if (hour >= 19 && hour < 20) {
+        if (lastFitnessReminderDate !== todayKey) {
+            lastFitnessReminderDate = todayKey;
+            fitnessReminderShown = false;
+        }
+        if (!fitnessReminderShown) {
+            fitnessReminderShown = true;
+            showFitnessReminder();
+        }
+    } else {
+        fitnessReminderShown = false;
+    }
+}
+
+function showFitnessReminder() {
+    const modal = document.getElementById('motivationModal');
+    document.getElementById('motivationTitle').textContent = '健身时间到！';
+    document.getElementById('motivationText').textContent = '每日19:00-20:00专属健身时段，快来完成40分钟运动打卡吧！运动赋能，自律塑形！';
+    document.querySelector('.modal-icon').textContent = '💪';
+    modal.classList.add('show');
+    setTimeout(() => {
+        if (modal.classList.contains('show')) {
+            closeMotivation();
+        }
+    }, 3500);
+}
+
+// ========== 初始化 ==========
+
+function init() {
+    // 确保数据结构完整
+    if (!appData.tasks) {
+        appData.tasks = getDefaultTasks();
+    }
+    // 确保所有固定模块存在
+    const defaults = getDefaultTasks();
+    Object.keys(defaults).forEach(key => {
+        if (!appData.tasks[key]) {
+            appData.tasks[key] = defaults[key];
+        }
+    });
+
+    renderNav();
+    renderContent();
+    updateTime();
+    setInterval(updateTime, 1000); // 每秒更新时间（含日历）
+
+    // 开屏激励
+    setTimeout(() => {
+        showMotivation('小张不爱吃章鱼', '欢迎回来！今天也要元气满满哦～ ✨');
+    }, 500);
+}
+
+// 启动
+document.addEventListener('DOMContentLoaded', init);
+
+</script>
+</body>
+</html>
