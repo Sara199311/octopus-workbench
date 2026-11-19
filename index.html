@@ -2397,6 +2397,70 @@ body {
     font-size: 0.9rem;
 }
 
+/* ============================================
+   数据备份/恢复
+   ============================================ */
+.gear-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-right: 6px;
+    transition: var(--transition);
+}
+
+.gear-btn:active {
+    transform: scale(0.9) rotate(30deg);
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.backup-tip {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    background: var(--cream-soft);
+    border-radius: var(--radius-md);
+    padding: 10px;
+    margin-bottom: var(--space-md);
+    text-align: left;
+}
+
+.import-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 2px dashed var(--mint-dark);
+    background: var(--mint-light);
+    color: var(--mint-deep);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    box-sizing: border-box;
+}
+
+.import-btn:active {
+    transform: scale(0.97);
+    background: var(--mint-dark);
+    color: white;
+}
+
+.backup-warn {
+    font-size: 0.62rem;
+    color: #e67373;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
 </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
 </head>
@@ -2405,6 +2469,7 @@ body {
         <!-- 顶部状态栏 -->
         <header class="top-bar">
             <div class="top-bar-left">
+                <button class="gear-btn" onclick="openBackupModal()" title="数据备份">⚙️</button>
                 <span class="workbench-name">🐙 小张不爱吃章鱼</span>
             </div>
             <div class="top-bar-right" id="calendarWidget">
@@ -2668,6 +2733,25 @@ body {
                     <button class="assist-btn danger" onclick="clearAssist()">🗑 清空</button>
                 </div>
                 <div class="assist-note">说明：本工具基于结构化模板与书面语规则库生成，输出后可直接编辑再导出；如需接入豆包等大模型 API 可随时升级。</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数据备份/恢复弹窗 -->
+    <div class="modal-overlay" id="backupModal">
+        <div class="modal progress-modal" style="text-align:center;">
+            <div class="modal-title">💾 数据备份与恢复</div>
+            <div class="backup-tip">
+                打卡、进度、体重、招聘数据都保存在当前设备浏览器里。<br>
+                <b>换设备/电脑同步</b>：在本机导出备份 → 发送到另一设备 → 在另一设备导入恢复。
+            </div>
+            <button class="btn-modal-confirm" style="width:100%;margin-bottom:10px;" onclick="exportBackup()">📤 导出备份文件</button>
+            <label class="import-btn">📥 导入备份文件（覆盖本机数据）
+                <input type="file" accept=".json,application/json" onchange="importBackupFile(this)" style="display:none;">
+            </label>
+            <div class="backup-warn">⚠️ 导入会用备份文件覆盖本机现有数据，请先确认备份是最新版本</div>
+            <div class="modal-btns">
+                <button class="btn-cancel" style="width:100%;" onclick="closeBackupModal()">关闭</button>
             </div>
         </div>
     </div>
@@ -5212,6 +5296,48 @@ function renderGovSites() {
         </div>
     </div>`;
     return html;
+}
+
+// ========== 数据备份与恢复 ==========
+function openBackupModal() {
+    document.getElementById('backupModal').classList.add('show');
+}
+
+function closeBackupModal() {
+    document.getElementById('backupModal').classList.remove('show');
+}
+
+function exportBackup() {
+    const data = JSON.stringify(appData, null, 2);
+    const blob = new Blob(['\ufeff' + data], { type: 'application/json;charset=utf-8' });
+    triggerDownload(blob, `工作台备份-${getTodayKey()}.json`);
+    showToast('备份文件已导出 💾 发送到其他设备即可导入');
+}
+
+function importBackupFile(input) {
+    const file = input.files && input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const imported = JSON.parse(e.target.result);
+            if (!imported || typeof imported !== 'object' || !imported.tasks || !imported.progress) {
+                throw new Error('不是工作台的备份文件');
+            }
+            if (!confirm('导入将覆盖本机当前所有打卡数据，确定继续？')) {
+                input.value = '';
+                return;
+            }
+            const migrated = migrateData(imported);
+            localStorage.setItem('octopus_workbench_data', JSON.stringify(migrated));
+            alert('导入成功！页面即将刷新以加载新数据');
+            location.reload();
+        } catch (err) {
+            alert('导入失败：' + err.message + '\n请确认选择的是工作台导出的备份文件');
+        }
+        input.value = '';
+    };
+    reader.readAsText(file, 'utf-8');
 }
 
 </script>
